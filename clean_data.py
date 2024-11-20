@@ -5,7 +5,7 @@ import os
 
 # Download data
 kaggle_path = kagglehub.dataset_download("ahmedshahriarsakib/uber-eats-usa-restaurants-menus")
-data_path = "./data"
+data_path = "data/"
 
 print("Downloaded datasets from Kaggle.")
 
@@ -18,7 +18,7 @@ for file in os.listdir(kaggle_path):
     if os.path.isfile(source):
         shutil.copy(source, destination)
 
-print("Moved datasets to ./data")
+print("Moved datasets to data/")
 
 # Load data
 restaurants_df = pd.read_csv('data/restaurants.csv') 
@@ -67,4 +67,6 @@ final_result = final_result.reset_index(drop=True)
 final_result = final_result.sort_values(by = 'score', ascending=False)
 
 # Export the final dataset to a CSV file
-final_result.to_csv('data/top_restaurants.csv', index=False)
+result_file = "top_restaurants.csv"
+final_result.to_csv(data_path+result_file, index=False)
+print("Cleaned data and exported to "+data_path+result_file)

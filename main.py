@@ -23,9 +23,12 @@ if "prefer_count" not in st.session_state:
 if "survey_progress" not in st.session_state:
     st.session_state.survey_progress = 0
 
+data_path = "data/"
+data_file = "top_restaurants.csv"
+
 @st.cache_data
 def load_restaurant_data():
-    return pd.read_csv('./data/restaurants.csv')
+    return pd.read_csv(data_path+data_file)
 
 def add_prefer(prefer): # Preference is a row in a DataFrame
     st.session_state.prefer.append(prefer) # Build up preferences!

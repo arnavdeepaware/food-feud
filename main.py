@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 
-st.markdown("<h1 style='text-align: center'><a href='https://github.com/jsgarcha/food-feud'>Food Feud</a></h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center'>Food Feud</h1>", unsafe_allow_html=True)
 
 RESTAURANT_SURVEY_STAGE = 1
 RECIPE_GENERATION_STAGE = 2
@@ -43,10 +43,14 @@ placeholder = st.empty()
 
 if st.session_state.stage == RESTAURANT_SURVEY_STAGE:
     with placeholder.container():
-        st.markdown("<h3 style='text-align: center'>Start by taking our survey of eating establishments whose food you enjoy.</h1>", unsafe_allow_html=True)
+        st.markdown("<h4 style='text-align: center'>Start by taking our survey of eating establishments whose food you enjoy.</h4>", unsafe_allow_html=True)
         survey_progress_bar = st.progress(st.session_state.survey_progress, text=f"Select {st.session_state.prefer_count} more.")
         restaurant = df_restaurants.sample()
-        st.write(restaurant.iloc[0]['name'])
+        st.markdown("<h3 style='text-align: center'>"+restaurant.iloc[0]['name']+"</h3>", unsafe_allow_html=True)
+        col1, col2 = st.columns(2)
+        if col1.button('Yes 👍', type="secondary", use_container_width=True):
+            add_prefer(restaurant)
+        col2.button('No 👎', type="secondary", use_container_width=True)
 
 if st.session_state.prefer_count == 0:
     placeholder.empty()

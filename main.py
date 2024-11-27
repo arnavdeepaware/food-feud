@@ -54,18 +54,17 @@ def generate_recipe(ingredients):
                 headline = "TITLE"
             elif section.startswith("ingredients:"):
                 section = section.replace("ingredients:", "")
-                headline = "INGREDIENTS"
+                headline = "Ingredients"
             elif section.startswith("directions:"):
                 section = section.replace("directions:", "")
-                headline = "DIRECTIONS"
+                headline = "Directions"
             
             if headline == "TITLE":
-                st.write(f"[{headline}]: {section.strip().capitalize()}")
+                st.markdown("<h3 style='text-align: center'>"+str(section.strip().capitalize())+"</h3>", unsafe_allow_html=True)
             else:
-                section_info = [f"  - {i+1}: {info.strip().capitalize()}" for i, info in enumerate(section.split("--"))]
-                st.write(f"[{headline}]:")
+                section_info = [f"  - {info.strip().capitalize()}" for i, info in enumerate(section.split("--"))]
+                st.markdown("<h4>"+f'{headline}'+"</h4>", unsafe_allow_html=True)
                 st.write("\n".join(section_info))
-        st.write("-" * 130)
 
 df_restaurants = load_restaurant_data()
 
@@ -83,12 +82,13 @@ if st.session_state.stage == RESTAURANT_SURVEY_STAGE:
         if col2.button('No 👎', type="secondary", use_container_width=True):
             add_dislike(restaurant)
 
-if st.session_state.like_count == 0:
+if st.session_state.like_count == 0 and st.session_state.stage != RECIPE_GENERATION_STAGE:
     placeholder.empty()
     st.balloons()
     st.session_state.stage = RECIPE_GENERATION_STAGE
 
 if st.session_state.stage == RECIPE_GENERATION_STAGE:
     df_restaurant_likes = pd.concat(st.session_state.like)
+    
     if st.button('Generate Recipe!', type='primary'):
         generate_recipe(ingredients)

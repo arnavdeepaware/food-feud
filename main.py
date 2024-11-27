@@ -1,9 +1,6 @@
 import pandas as pd
-import numpy as np
-from collections import defaultdict
-import matplotlib.pyplot as plt
-import re
 import streamlit as st
+from recipe_generator import generation_function
 
 st.markdown("<h1 style='text-align: center'>Food Feud</h1>", unsafe_allow_html=True)
 
@@ -44,6 +41,32 @@ def add_like(like): # Row in a DataFrame
 def add_dislike(dislike):
      st.session_state.dislike.append(dislike)
 
+ingredients = ['chicken']
+
+def generate_recipe(ingredients):
+    generated = generation_function(ingredients)
+    for text in generated:
+        sections = text.split("\n")
+        for section in sections:
+            section = section.strip()
+            if section.startswith("title:"):
+                section = section.replace("title:", "")
+                headline = "TITLE"
+            elif section.startswith("ingredients:"):
+                section = section.replace("ingredients:", "")
+                headline = "INGREDIENTS"
+            elif section.startswith("directions:"):
+                section = section.replace("directions:", "")
+                headline = "DIRECTIONS"
+            
+            if headline == "TITLE":
+                st.write(f"[{headline}]: {section.strip().capitalize()}")
+            else:
+                section_info = [f"  - {i+1}: {info.strip().capitalize()}" for i, info in enumerate(section.split("--"))]
+                st.write(f"[{headline}]:")
+                st.write("\n".join(section_info))
+        st.write("-" * 130)
+
 df_restaurants = load_restaurant_data()
 
 placeholder = st.empty()
@@ -67,5 +90,5 @@ if st.session_state.like_count == 0:
 
 if st.session_state.stage == RECIPE_GENERATION_STAGE:
     df_restaurant_likes = pd.concat(st.session_state.like)
-    st.dataframe(df_restaurant_likes)
-    #analyze_likes(df_restaurant_likeences)
+    if st.button('Generate Recipe!', type='primary'):
+        generate_recipe(ingredients)

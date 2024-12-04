@@ -28,7 +28,7 @@ print("Loaded data.")
 restaurants_df = restaurants_df.dropna(subset=['category']) # Drop rows with null values in 'category'
 
 restaurants_df = restaurants_df[
-    #(restaurants_df['price_range'].isin(['$$', '$$$', '$$$$'])) &   # Keep $$ to $$$$
+    (restaurants_df['price_range'].isin(['$$', '$$$', '$$$$'])) &   # Keep $$ to $$$$
     (restaurants_df['score'] >= 3.5)                                # Keep ratings 3.5 and above
 ]
 

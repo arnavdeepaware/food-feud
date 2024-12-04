@@ -23,6 +23,8 @@ model = genai.GenerativeModel(
 )
 
 history = []
+ingredients = []
+
 print(os.getenv('CUISINE'))
 msg = "Based on these top restuarants in the United States of the " + str({os.getenv('CUISINE')}) +" Cuisine. Recommend me some unique and cool dishes that I can try to make at home. At the end take all restuarants into consideration and give me a list of ingredients I need. The output should have 2 things: all dishes and all ingredients"
 
@@ -45,11 +47,15 @@ while True:
         #print(res["ingredients"])
 
         for i in res["ingredients"]:
-            print(i)
+            #print(i)
+            ingredients.append(i)
         break
     except KeyError:
         continue
 
+
+print(ingredients)
+#Export/import ingredients array for recipe generation
 
 '''
 print("ingredients:")

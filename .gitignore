@@ -1,4 +1,9 @@
 data/
 __pycache__/
 *.csv
+<<<<<<< HEAD
 *.env
+=======
+*.env
+
+>>>>>>> jazz

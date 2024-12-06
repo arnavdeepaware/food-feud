@@ -1,9 +1,7 @@
-data/
 __pycache__/
+.env
+requirements.txt
+data/
 *.csv
-<<<<<<< HEAD
 *.env
-=======
-*.env
-
->>>>>>> jazz
+*.txt
